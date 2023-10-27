@@ -130,6 +130,60 @@ namespace UnityGGPO {
                 return result;
             }
 
+            public static int StartSyncTest(
+                    BeginGameDelegate beginGame,
+                    AdvanceFrameDelegate advanceFrame,
+                    SafeLoadGameStateDelegate loadGameState,
+                    SafeLogGameStateDelegate logGameState,
+                    SafeSaveGameStateDelegate saveGameState,
+                    SafeFreeBufferDelegate freeBuffer,
+                    OnEventConnectedToPeerDelegate onEventConnectedToPeer,
+                    OnEventSynchronizingWithPeerDelegate onEventSynchronizingWithPeer,
+                    OnEventSynchronizedWithPeerDelegate onEventSynchronizedWithPeer,
+                    OnEventRunningDelegate onEventRunning,
+                    OnEventConnectionInterruptedDelegate onEventConnectionInterrupted,
+                    OnEventConnectionResumedDelegate onEventConnectionResumed,
+                    OnEventDisconnectedFromPeerDelegate onEventDisconnectedFromPeer,
+                    OnEventEventcodeTimesyncDelegate onEventTimesync,
+                    string gameName, int numPlayers, int frames) {
+                beginGameCallback = beginGame;
+                advanceFrameCallback = advanceFrame;
+                loadGameStateCallback = loadGameState;
+                logGameStateCallback = logGameState;
+                saveGameStateCallback = saveGameState;
+                freeBufferCallback = freeBuffer;
+
+                Session.onEventConnectedToPeer = onEventConnectedToPeer;
+                Session.onEventSynchronizingWithPeer = onEventSynchronizingWithPeer;
+                Session.onEventSynchronizedWithPeer = onEventSynchronizedWithPeer;
+                Session.onEventRunning = onEventRunning;
+                Session.onEventConnectionInterrupted = onEventConnectionInterrupted;
+                Session.onEventConnectionResumed = onEventConnectionResumed;
+                Session.onEventDisconnectedFromPeer = onEventDisconnectedFromPeer;
+                Session.onEventTimesync = onEventTimesync;
+
+                unsafe {
+                    _beginGameCallback = Marshal.GetFunctionPointerForDelegate<BeginGameDelegate>(OnBeginGame);
+                    _advanceFrameCallback = Marshal.GetFunctionPointerForDelegate<AdvanceFrameDelegate>(OnAdvanceFrame);
+                    _loadGameStateCallback = Marshal.GetFunctionPointerForDelegate<LoadGameStateDelegate>(LoadGameState);
+                    _logGameStateCallback = Marshal.GetFunctionPointerForDelegate<LogGameStateDelegate>(LogGameState);
+                    _saveGameStateCallback = Marshal.GetFunctionPointerForDelegate<SaveGameStateDelegate>(SaveGameState);
+                    _freeBufferCallback = Marshal.GetFunctionPointerForDelegate<FreeBufferDelegate>(FreeBuffer);
+                    _onEventCallback = Marshal.GetFunctionPointerForDelegate<OnEventDelegate>(OnEvent);
+                }
+                var result = GGPO.StartSyncTest(out ggpo,
+                    _beginGameCallback,
+                    _advanceFrameCallback,
+                    _loadGameStateCallback,
+                    _logGameStateCallback,
+                    _saveGameStateCallback,
+                    _freeBufferCallback,
+                    _onEventCallback,
+                    gameName, numPlayers, frames);
+
+                return result;
+            }
+
             public static int StartSpectating(
                     BeginGameDelegate beginGame,
                     AdvanceFrameDelegate advanceFrame,
