@@ -161,6 +161,33 @@ PLUGINEX(int) UggStartSession(GGPOPtr& sessionRef,
     return ret;
 }
 
+PLUGINEX(int) UggStartSyncTest(GGPOPtr& sessionRef,
+    BeginGameDelegate beginGame,
+    AdvanceFrameDelegate advanceFrame,
+    LoadGameStateDelegate loadGameState,
+    LogGameStateDelegate logGameState,
+    SaveGameStateDelegate saveGameState,
+    FreeBufferDelegate freeBuffer,
+    OnEventDelegate onEvent,
+    char* game, int num_players, int frames)
+{
+    UggCallLogv(LOG_INFO, "UggStartSyncTest - %s %i %i", game, num_players, frames);
+    GGPOSessionCallbacks cb;
+    cb.advance_frame = advanceFrame;
+    cb.load_game_state = loadGameState;
+    cb.begin_game = beginGame;
+    cb.save_game_state = saveGameState;
+    cb.load_game_state = loadGameState;
+    cb.log_game_state = logGameState;
+    cb.free_buffer = freeBuffer;
+    cb.on_event = onEvent;
+
+    GGPOSession* ggpo;
+    auto ret = ggpo_start_synctest(&ggpo, &cb, game, num_players, sizeof(uint64_t), frames);
+    sessionRef = (GGPOPtr)ggpo;
+    return ret;
+}
+
 PLUGINEX(int) UggStartSpectating(GGPOPtr& sessionRef,
     BeginGameDelegate beginGame,
     AdvanceFrameDelegate advanceFrame,

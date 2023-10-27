@@ -173,6 +173,17 @@ namespace UnityGGPO {
             string game, int num_players, int localport);
 
         [DllImport(libraryName)]
+        private static extern int UggStartSyncTest(out IntPtr session,
+            IntPtr beginGame,
+            IntPtr advanceFrame,
+            IntPtr loadGameState,
+            IntPtr logGameState,
+            IntPtr saveGameState,
+            IntPtr freeBuffer,
+            IntPtr onEvent,
+            string game, int num_players, int frames);
+
+        [DllImport(libraryName)]
         private static extern int UggStartSpectating(out IntPtr session,
             IntPtr beginGame,
             IntPtr advanceFrame,
@@ -244,6 +255,18 @@ namespace UnityGGPO {
                 IntPtr onEvent,
                 string game, int num_players, int localport) {
             return UggStartSession(out session, beginGame, advanceFrame, loadGameState, logGameState, saveGameState, freeBuffer, onEvent, game, num_players, localport);
+        }
+
+        public static int StartSyncTest(out IntPtr session,
+                IntPtr beginGame,
+                IntPtr advanceFrame,
+                IntPtr loadGameState,
+                IntPtr logGameState,
+                IntPtr saveGameState,
+                IntPtr freeBuffer,
+                IntPtr onEvent,
+                string game, int num_players, int frames) {
+            return UggStartSyncTest(out session, beginGame, advanceFrame, loadGameState, logGameState, saveGameState, freeBuffer, onEvent, game, num_players, frames);
         }
 
         public static int StartSpectating(out IntPtr session,

@@ -35,6 +35,15 @@ extern "C" {
 		FreeBufferDelegate freeBuffer,
 		OnEventDelegate onEvent,
 		const char* game, int num_players, int localport);
+	PLUGINEX(int) UggStartSyncTest(GGPOPtr& sessionRef,
+		BeginGameDelegate beginGame,
+		AdvanceFrameDelegate advanceFrame,
+		LoadGameStateDelegate loadGameState,
+		LogGameStateDelegate logGameState,
+		SaveGameStateDelegate saveGameState,
+		FreeBufferDelegate freeBuffer,
+		OnEventDelegate onEvent,
+		const char* game, int num_players, int frames);
 	PLUGINEX(int) UggStartSpectating(GGPOPtr& sessionRef,
 		BeginGameDelegate beginGame,
 		AdvanceFrameDelegate advanceFrame,
