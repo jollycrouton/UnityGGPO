@@ -43,7 +43,7 @@ extern "C" {
 		SaveGameStateDelegate saveGameState,
 		FreeBufferDelegate freeBuffer,
 		OnEventDelegate onEvent,
-		const char* game, int num_players, int frames);
+		char* game, int num_players, int frames);
 	PLUGINEX(int) UggStartSpectating(GGPOPtr& sessionRef,
 		BeginGameDelegate beginGame,
 		AdvanceFrameDelegate advanceFrame,
