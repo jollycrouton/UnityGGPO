@@ -255,6 +255,7 @@ PLUGINEX(int) UggAddPlayer(GGPOPtr ggpo,
     int player_num,
     const char* player_ip_address,
     unsigned short player_port,
+    uint64 steam_id,
     int& phandle)
 {
     UggCallLogv(LOG_INFO, "UggAddPlayer %d %d %s %d", player_type, player_num, player_ip_address, player_port);
@@ -264,6 +265,7 @@ PLUGINEX(int) UggAddPlayer(GGPOPtr ggpo,
     player.player_num = player_num;
     strcpy_s(player.u.remote.ip_address, player_ip_address);
     player.u.remote.port = player_port;
+    player.u.remote.steam_id = steam_id;
     return ggpo_add_player((GGPOSession*)ggpo, &player, &phandle);
 }
 
