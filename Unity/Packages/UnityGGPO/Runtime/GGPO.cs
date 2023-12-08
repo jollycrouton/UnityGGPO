@@ -15,9 +15,10 @@ namespace UnityGGPO {
         public int player_num;
         public string ip_address;
         public ushort port;
+        public ulong steam_id;
 
         public override string ToString() {
-            return $"({type},{player_num},{ip_address},{port})";
+            return $"({type},{player_num},{ip_address},{port},{steam_id})";
         }
     }
 
@@ -213,7 +214,7 @@ namespace UnityGGPO {
         private static extern int UggIdle(IntPtr ggpo, int timeout);
 
         [DllImport(libraryName)]
-        private static extern int UggAddPlayer(IntPtr ggpo, int player_type, int player_num, string player_ip_address, ushort player_port, out int phandle);
+        private static extern int UggAddPlayer(IntPtr ggpo, int player_type, int player_num, string player_ip_address, ushort player_port, ulong steam_id, out int phandle);
 
         [DllImport(libraryName)]
         private static extern int UggDisconnectPlayer(IntPtr ggpo, int phandle);
@@ -313,8 +314,8 @@ namespace UnityGGPO {
             return UggIdle(ggpo, timeout);
         }
 
-        public static int AddPlayer(IntPtr ggpo, int player_type, int player_num, string player_ip_address, ushort player_port, out int phandle) {
-            return UggAddPlayer(ggpo, player_type, player_num, player_ip_address, player_port, out phandle);
+        public static int AddPlayer(IntPtr ggpo, int player_type, int player_num, string player_ip_address, ushort player_port, ulong steam_id, out int phandle) {
+            return UggAddPlayer(ggpo, player_type, player_num, player_ip_address, player_port, steam_id, out phandle);
         }
 
         public static int DisconnectPlayer(IntPtr ggpo, int phandle) {
