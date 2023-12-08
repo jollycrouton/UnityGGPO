@@ -291,6 +291,7 @@ namespace UnityGGPO {
                     player.player_num,
                     player.ip_address,
                     player.port,
+                    player.steam_id,
                     out phandle);
                 return result;
             }
