@@ -64,6 +64,7 @@ extern "C" {
 		int player_num,
 		const char* player_ip_address,
 		unsigned short player_port,
+		uint64 steam_id,
 		int& phandle);
 	PLUGINEX(int) UggDisconnectPlayer(GGPOPtr ggpo, int phandle);
 	PLUGINEX(int) UggSetFrameDelay(GGPOPtr ggpo, int phandle, int frame_delay);
