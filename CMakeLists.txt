@@ -22,3 +22,9 @@ endif()
 add_subdirectory(ggpo/src)
 add_subdirectory(ggpo/src/apps/vectorwar)
 add_subdirectory(UnityGGPO)
+
+set(STEAMWORKS_PATH "${CMAKE_SOURCE_DIR}/ggpo/external/steamworks/sdk" CACHE STRING "Path to Steamworks SDK" FORCE)
+
+target_include_directories(GGPO PUBLIC
+    ${STEAMWORKS_PATH}/public
+)
