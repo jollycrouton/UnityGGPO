@@ -315,6 +315,10 @@ namespace UnityGGPO {
                 GGPO.Log(ggpo, v);
             }
 
+            public static void SetSteamLegacyMessages(bool legacy) {
+                GGPO.SetSteamLegacyMessages(ggpo, legacy);
+            }
+
             public static void OnDispose() {
                 if (ggpo != IntPtr.Zero) {
                     CloseSession();

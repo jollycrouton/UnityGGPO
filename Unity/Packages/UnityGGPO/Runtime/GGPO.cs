@@ -229,6 +229,9 @@ namespace UnityGGPO {
         private static extern void UggLog(IntPtr ggpo, string text);
 
         [DllImport(libraryName)]
+        private static extern void UggSetSteamLegacyMessages(IntPtr ggpo, bool legacy);
+
+        [DllImport(libraryName)]
         private static extern int UggGetNetworkStats(IntPtr ggpo, int phandle,
             out int send_queue_len,
             out int recv_queue_len,
@@ -332,6 +335,10 @@ namespace UnityGGPO {
 
         public static void Log(IntPtr ggpo, string text) {
             UggLog(ggpo, text);
+        }
+
+        public static void SetSteamLegacyMessages(IntPtr ggpo, bool legacy) {
+            UggSetSteamLegacyMessages(ggpo, legacy);
         }
 
         public static int GetNetworkStats(IntPtr ggpo, int phandle,
