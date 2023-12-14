@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.rlabrecque.steamworks.net": "https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net",
     "com.unity.ai.navigation": "1.1.1",
     "com.unity.burst": "1.8.4",
     "com.unity.ide.visualstudio": "2.0.17",
