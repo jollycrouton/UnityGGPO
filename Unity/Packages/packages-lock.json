@@ -126,7 +126,9 @@
       "version": "file:UnityGGPO",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.rlabrecque.steamworks.net": ""
+      }
     },
     "unityggpo.sharedgame": {
       "version": "file:SharedGame",
