@@ -293,6 +293,12 @@ PLUGINEX(void) UggLog(GGPOPtr ggpo, const char* text)
     ggpo_log((GGPOSession*)ggpo, text);
 }
 
+PLUGINEX(void) UggSetSteamLegacyMessages(GGPOPtr ggpo, bool legacy)
+{
+    UggCallLog(LOG_INFO, "UggSetSteamLegacyMessages");
+    ggpo_set_steam_legacy_messages((GGPOSession*)ggpo, legacy);
+}
+
 PLUGINEX(int) UggGetNetworkStats(GGPOPtr ggpo, int phandle,
     int& send_queue_len,
     int& recv_queue_len,

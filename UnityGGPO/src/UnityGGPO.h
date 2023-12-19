@@ -70,6 +70,7 @@ extern "C" {
 	PLUGINEX(int) UggSetFrameDelay(GGPOPtr ggpo, int phandle, int frame_delay);
 	PLUGINEX(int) UggAdvanceFrame(GGPOPtr ggpo);
 	PLUGINEX(void) UggLog(GGPOPtr ggpo, const char* text);
+	PLUGINEX(void) UggSetSteamLegacyMessages(GGPOPtr ggpo, bool legacy);
 	PLUGINEX(int) UggGetNetworkStats(GGPOPtr ggpo, int phandle,
 		int& send_queue_len,
 		int& recv_queue_len,
