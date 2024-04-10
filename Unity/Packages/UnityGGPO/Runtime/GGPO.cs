@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using UnityEngine.Serialization;
 
 namespace UnityGGPO {
 
@@ -12,23 +13,23 @@ namespace UnityGGPO {
     [Serializable]
     public struct GGPOPlayer {
         public GGPOPlayerType type;
-        public int player_num;
-        public string ip_address;
+        public int playerNum;
+        public string ipAddress;
         public ushort port;
-        public ulong steam_id;
+        public ulong steamId;
 
         public override string ToString() {
-            return $"({type},{player_num},{ip_address},{port},{steam_id})";
+            return $"({type},{playerNum},{ipAddress},{port},{steamId})";
         }
     }
 
     public class GGPONetworkStats {
-        public int send_queue_len;
-        public int recv_queue_len;
+        public int sendQueueLen;
+        public int recvQueueLen;
         public int ping;
-        public int kbps_sent;
-        public int local_frames_behind;
-        public int remote_frames_behind;
+        public int kbpsSent;
+        public int localFramesBehind;
+        public int remoteFramesBehind;
     }
 
     public static partial class GGPO {
@@ -71,44 +72,19 @@ namespace UnityGGPO {
         public static string GetErrorCodeMessage(int result) {
             switch (result) {
                 case ERRORCODE_SUCCESS:
-                    return "ERRORCODE_SUCCESS";
-
                 case ERRORCODE_GENERAL_FAILURE:
-                    return "ERRORCODE_GENERAL_FAILURE";
-
                 case ERRORCODE_INVALID_SESSION:
-                    return "ERRORCODE_INVALID_SESSION";
-
                 case ERRORCODE_INVALID_PLAYER_HANDLE:
-                    return "ERRORCODE_INVALID_PLAYER_HANDLE";
-
                 case ERRORCODE_PLAYER_OUT_OF_RANGE:
-                    return "ERRORCODE_PLAYER_OUT_OF_RANGE";
-
                 case ERRORCODE_PREDICTION_THRESHOLD:
-                    return "ERRORCODE_PREDICTION_THRESHOLD";
-
                 case ERRORCODE_UNSUPPORTED:
-                    return "ERRORCODE_UNSUPPORTED";
-
                 case ERRORCODE_NOT_SYNCHRONIZED:
-                    return "ERRORCODE_NOT_SYNCHRONIZED";
-
                 case ERRORCODE_IN_ROLLBACK:
-                    return "ERRORCODE_IN_ROLLBACK";
-
                 case ERRORCODE_INPUT_DROPPED:
-                    return "ERRORCODE_INPUT_DROPPED";
-
                 case ERRORCODE_PLAYER_DISCONNECTED:
-                    return "ERRORCODE_PLAYER_DISCONNECTED";
-
                 case ERRORCODE_TOO_MANY_SPECTATORS:
-                    return "ERRORCODE_TOO_MANY_SPECTATORS";
-
                 case ERRORCODE_INVALID_REQUEST:
-                    return "ERRORCODE_INVALID_REQUEST";
-
+                    return result.ToString();
                 default:
                     return "INVALID_ERRORCODE";
             }
@@ -293,16 +269,19 @@ namespace UnityGGPO {
             return UggSetDisconnectTimeout(ggpo, timeout);
         }
 
-        public static long[] SynchronizeInput(IntPtr ggpo, int length, out int disconnect_flags) {
+        public static void SynchronizeInput(IntPtr ggpo, long[] inputs, out int disconnect_flags) {
+            var length = inputs.Length; 
+            
+            for (var i = 0; i < length; i++)
+                inputs[i] = default;
+            
             IntPtr pnt = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(long)) * length);
             var result = UggSynchronizeInput(ggpo, pnt, length, out disconnect_flags);
-            var inputs = new long[length];
             Marshal.Copy(pnt, inputs, 0, length);
             Marshal.FreeHGlobal(pnt);
             if (!SUCCEEDED(result)) {
                 throw new Exception(GetErrorCodeMessage(result));
             }
-            return inputs;
         }
 
         public static int AddLocalInput(IntPtr ggpo, int local_player_handle, long input) {
@@ -342,13 +321,13 @@ namespace UnityGGPO {
         }
 
         public static int GetNetworkStats(IntPtr ggpo, int phandle,
-                out int send_queue_len,
-                out int recv_queue_len,
+                out int sendQueueLen,
+                out int recvQueueLen,
                 out int ping,
-                out int kbps_sent,
-                out int local_frames_behind,
-                out int remote_frames_behind) {
-            return UggGetNetworkStats(ggpo, phandle, out send_queue_len, out recv_queue_len, out ping, out kbps_sent, out local_frames_behind, out remote_frames_behind);
+                out int kbpsSent,
+                out int localFramesBehind,
+                out int remoteFramesBehind) {
+            return UggGetNetworkStats(ggpo, phandle, out sendQueueLen, out recvQueueLen, out ping, out kbpsSent, out localFramesBehind, out remoteFramesBehind);
         }
 
         public static int TestStartSession(out IntPtr session,

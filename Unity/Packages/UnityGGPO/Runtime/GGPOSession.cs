@@ -7,8 +7,7 @@ namespace UnityGGPO {
 
     // @TODO Move
     public interface IPerfUpdate {
-
-        void ggpoutil_perfmon_update(GGPONetworkStats[] statss);
+        void NetworkStatsUpdate(GGPONetworkStats[] statsList);
     }
 
     public static partial class GGPO {
@@ -238,15 +237,14 @@ namespace UnityGGPO {
                 return result;
             }
 
-            public static int GetNetworkStats(int phandle, out GGPONetworkStats stats) {
-                stats = new GGPONetworkStats();
+            public static int GetNetworkStats(int phandle, GGPONetworkStats stats) {
                 var result = GGPO.GetNetworkStats(ggpo, phandle,
-                    out stats.send_queue_len,
-                    out stats.recv_queue_len,
+                    out stats.sendQueueLen,
+                    out stats.recvQueueLen,
                     out stats.ping,
-                    out stats.kbps_sent,
-                    out stats.local_frames_behind,
-                    out stats.remote_frames_behind
+                    out stats.kbpsSent,
+                    out stats.localFramesBehind,
+                    out stats.remoteFramesBehind
                 );
                 return result;
             }
@@ -261,8 +259,8 @@ namespace UnityGGPO {
                 return result;
             }
 
-            public static long[] SynchronizeInput(int length, out int disconnect_flags) {
-                return GGPO.SynchronizeInput(ggpo, length, out disconnect_flags);
+            public static void SynchronizeInput(long[] inputs, out int disconnectFlags) {
+                GGPO.SynchronizeInput(ggpo, inputs, out disconnectFlags);
             }
 
             public static int AddLocalInput(int local_player_handle, long inputs) {
@@ -288,10 +286,10 @@ namespace UnityGGPO {
             public static int AddPlayer(GGPOPlayer player, out int phandle) {
                 var result = GGPO.AddPlayer(ggpo,
                     (int)player.type,
-                    player.player_num,
-                    player.ip_address,
+                    player.playerNum,
+                    player.ipAddress,
                     player.port,
-                    player.steam_id,
+                    player.steamId,
                     out phandle);
                 return result;
             }
